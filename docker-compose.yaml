@@ -1,0 +1,93 @@
+version: '3'
+services:
+  smil-proxy:
+    image: unifiedremix/caching-proxy
+    environment:
+      - VIRTUAL_HOST=smil-proxy,*/smil-proxy/*
+      - VIRTUAL_HOST_WEIGHT=10
+      - NAME=smil-proxy
+      - TARGET=smil-origin
+      - CACHE_MAX_FILESIZE=16384
+      - LOG_LEVEL=warn
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)smil-proxy[/]?(.*)     \1\2
+    networks:
+      - remix
+
+  remix-proxy:
+    image: unifiedremix/caching-proxy
+    environment:
+      - VIRTUAL_HOST=remix-proxy,*/remix-proxy/*
+      - VIRTUAL_HOST_WEIGHT=10
+      - NAME=remix-proxy
+      - TARGET=remix-origin
+      - CACHE_MAX_FILESIZE=104857600
+      - LOG_LEVEL=warn
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)remix-proxy[/]?(.*)     \1\2
+    networks:
+      - remix
+
+  smil-origin:
+    image: unifiedremix/smil-origin
+    environment:
+      - VIRTUAL_HOST=smil-origin,*/smil-origin/*
+      - VIRTUAL_HOST_WEIGHT=10
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)smil-origin[/]?(.*)     \1\2
+    networks:
+      - remix
+
+  remix-origin:
+    image: unifiedremix/remix-origin
+    environment:
+      - USP_LICENSE_KEY
+      - VIRTUAL_HOST=remix-origin,*/remix-origin/*
+      - VIRTUAL_HOST_WEIGHT=10
+      - LOG_FORMAT=%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{cache-status}e\" \"%{REMIX_REQUEST_ID}i\" %D
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)remix-origin[/]?(.*)     \1\2
+    networks:
+      - remix
+    
+  unified-origin:
+    image: unifiedstreaming/origin
+    environment:
+      - USP_LICENSE_KEY
+      - VIRTUAL_HOST=origin,unified-origin,*/unified-origin/*,*/origin/*
+      - VIRTUAL_HOST_WEIGHT=10
+      - LOG_FORMAT=%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{cache-status}e\" \"%{REMIX_REQUEST_ID}i\" %D
+      - REMOTE_STORAGE_URL=http://remix-proxy/
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)unified-origin[/]?(.*)     \1\2
+    networks:
+      - remix
+   
+  web-frontend:
+    image: unifiedremix/web-frontend
+    environment:
+      - VIRTUAL_HOST=web-frontend,*
+      - VIRTUAL_HOST_WEIGHT=0
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)web-frontend[/]?(.*)     \1\2
+    networks:
+      - remix
+    
+  sample-content:
+    image: unifiedremix/sample-content
+    environment:
+      - VIRTUAL_HOST=sample-content,*/sample-content/*
+      - VIRTUAL_HOST_WEIGHT=10
+    networks:
+      - remix
+
+  load-balance:
+    image: dockercloud/haproxy:1.5.3
+    environment:
+      - ADDITIONAL_SERVICES=remix:smil-proxy,remix:remix-proxy,remix:unified-origin,remix:web-frontend,remix:remix-origin,remix:smil-origin,remix:sample-content
+    ports:
+      - 80:80
+      - 1936:1936
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - remix
+
+networks:
+  remix:
+    driver: bridge   
+
