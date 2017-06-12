@@ -1,7 +1,7 @@
 version: '3'
 services:
   smil-proxy:
-    image: unifiedremix/caching-proxy
+    image: unifiedremix/caching-proxy:1.7.28
     environment:
       - VIRTUAL_HOST=smil-proxy,*/smil-proxy/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -9,12 +9,13 @@ services:
       - TARGET=smil-origin
       - CACHE_MAX_FILESIZE=16384
       - LOG_LEVEL=warn
+      - LOG_FORMAT=%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{cache-status}e\" \"%{REMIX_REQUEST_ID}i\" %D
       - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)smil-proxy[/]?(.*)     \1\2
     networks:
       - remix
 
   remix-proxy:
-    image: unifiedremix/caching-proxy
+    image: unifiedremix/caching-proxy:1.7.28
     environment:
       - VIRTUAL_HOST=remix-proxy,*/remix-proxy/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -22,21 +23,23 @@ services:
       - TARGET=remix-origin
       - CACHE_MAX_FILESIZE=104857600
       - LOG_LEVEL=warn
+      - LOG_FORMAT=%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{cache-status}e\" \"%{REMIX_REQUEST_ID}i\" %D
       - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)remix-proxy[/]?(.*)     \1\2
     networks:
       - remix
 
   smil-origin:
-    image: unifiedremix/smil-origin
+    image: unifiedremix/smil-origin:1.7.28-d1
     environment:
       - VIRTUAL_HOST=smil-origin,*/smil-origin/*
       - VIRTUAL_HOST_WEIGHT=10
+      - LOG_FORMAT=%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{cache-status}e\" \"%{REMIX_REQUEST_ID}i\" %D
       - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)smil-origin[/]?(.*)     \1\2
     networks:
       - remix
 
   remix-origin:
-    image: unifiedremix/remix-origin
+    image: unifiedremix/remix-origin:1.7.28
     environment:
       - USP_LICENSE_KEY
       - VIRTUAL_HOST=remix-origin,*/remix-origin/*
@@ -47,7 +50,7 @@ services:
       - remix
     
   unified-origin:
-    image: unifiedstreaming/origin
+    image: unifiedstreaming/origin:1.7.28
     environment:
       - USP_LICENSE_KEY
       - VIRTUAL_HOST=origin,unified-origin,*/unified-origin/*,*/origin/*
@@ -59,7 +62,7 @@ services:
       - remix
    
   web-frontend:
-    image: unifiedremix/web-frontend
+    image: unifiedremix/web-frontend:1.7.28-d2
     environment:
       - VIRTUAL_HOST=web-frontend,*
       - VIRTUAL_HOST_WEIGHT=0
@@ -68,10 +71,11 @@ services:
       - remix
     
   sample-content:
-    image: unifiedremix/sample-content
+    image: unifiedremix/sample-content:1.7.28
     environment:
       - VIRTUAL_HOST=sample-content,*/sample-content/*
       - VIRTUAL_HOST_WEIGHT=10
+      - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)sample-content[/]?(.*)     \1\2
     networks:
       - remix
 
