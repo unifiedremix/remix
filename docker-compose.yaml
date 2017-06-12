@@ -29,7 +29,7 @@ services:
       - remix
 
   smil-origin:
-    image: unifiedremix/smil-origin:1.7.28-d2
+    image: unifiedremix/smil-origin:1.7.28-d3
     environment:
       - VIRTUAL_HOST=smil-origin,*/smil-origin/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -39,7 +39,7 @@ services:
       - remix
 
   remix-origin:
-    image: unifiedremix/remix-origin:1.7.28-d1
+    image: unifiedremix/remix-origin:1.7.28-d2
     environment:
       - USP_LICENSE_KEY
       - VIRTUAL_HOST=remix-origin,*/remix-origin/*
