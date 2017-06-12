@@ -62,7 +62,7 @@ services:
       - remix
    
   web-frontend:
-    image: unifiedremix/web-frontend:1.7.28-d3
+    image: unifiedremix/web-frontend:1.7.28-d4
     environment:
       - VIRTUAL_HOST=web-frontend,*
       - VIRTUAL_HOST_WEIGHT=0
