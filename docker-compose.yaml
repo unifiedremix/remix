@@ -1,7 +1,7 @@
 version: '3'
 services:
   smil-proxy:
-    image: unifiedremix/caching-proxy:1.7.28-d1
+    image: unifiedremix/caching-proxy:1.7.28-d2
     environment:
       - VIRTUAL_HOST=smil-proxy,*/smil-proxy/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -15,7 +15,7 @@ services:
       - remix
 
   remix-proxy:
-    image: unifiedremix/caching-proxy:1.7.28-d1
+    image: unifiedremix/caching-proxy:1.7.28-d2
     environment:
       - VIRTUAL_HOST=remix-proxy,*/remix-proxy/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -29,7 +29,7 @@ services:
       - remix
 
   smil-origin:
-    image: unifiedremix/smil-origin:1.7.28-d3
+    image: unifiedremix/smil-origin:1.7.28-d4
     environment:
       - VIRTUAL_HOST=smil-origin,*/smil-origin/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -39,7 +39,7 @@ services:
       - remix
 
   remix-origin:
-    image: unifiedremix/remix-origin:1.7.28-d2
+    image: unifiedremix/remix-origin:1.7.28-d3
     environment:
       - USP_LICENSE_KEY
       - VIRTUAL_HOST=remix-origin,*/remix-origin/*
