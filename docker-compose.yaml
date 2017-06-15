@@ -81,8 +81,14 @@ services:
 
   load-balance:
     image: dockercloud/haproxy:1.5.3
-    environment:
-      - ADDITIONAL_SERVICES=remix:smil-proxy,remix:remix-proxy,remix:unified-origin,remix:web-frontend,remix:remix-origin,remix:smil-origin,remix:sample-content
+    links:
+      - remix-origin
+      - remix-proxy
+      - sample-content
+      - smil-origin
+      - smil-proxy
+      - unified-origin
+      - web-frontend
     ports:
       - 80:80
       - 1936:1936
