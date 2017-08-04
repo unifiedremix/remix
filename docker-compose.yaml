@@ -29,7 +29,7 @@ services:
       - remix
 
   smil-origin:
-    image: unifiedremix/smil-origin:1.7.31
+    image: unifiedremix/smil-origin:1.7.31-d1
     environment:
       - VIRTUAL_HOST=smil-origin,*/smil-origin/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -71,7 +71,7 @@ services:
       - remix
     
   sample-content:
-    image: unifiedremix/sample-content:1.7.31
+    image: unifiedremix/sample-content:1.7.31-d1
     environment:
       - VIRTUAL_HOST=sample-content,*/sample-content/*
       - VIRTUAL_HOST_WEIGHT=10
