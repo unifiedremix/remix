@@ -12,8 +12,6 @@ This environment only contains two use cases:
 * Pre/Mid/Post roll
 * Virtual Subclips
 
-For more use cases see [Remix Demo](http://demo.unified-streaming.com/remix.html).
-
 ## Flow Diagram
 
 The interaction between the components is depicted in the following diagram:
