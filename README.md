@@ -35,7 +35,7 @@ The interaction between the components is depicted in the following diagram:
 
 ## Usage
 
-You need a license key to use this software. To evaluate you can create an account at [Unified Streaming Registration](https://private.unified-streaming.com/register/).
+You need a license key to use this software. To evaluate you can create an account at [Unified Streaming Registration](https://unified-streaming.com/licenses/access).
 
 The license key is passed to containers using the *USP_LICENSE_KEY* environment variable.
 
