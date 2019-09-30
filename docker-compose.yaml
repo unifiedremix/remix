@@ -1,7 +1,7 @@
 version: '3'
 services:
   smil-proxy:
-    image: unifiedstreaming/caching-proxy:1.7.32
+    image: unifiedremix/caching-proxy:1.7.32
     environment:
       - VIRTUAL_HOST=smil-proxy,*/smil-proxy/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -15,7 +15,7 @@ services:
       - remix
 
   remix-proxy:
-    image: unifiedstreaming/caching-proxy:1.7.32
+    image: unifiedremix/caching-proxy:1.7.32
     environment:
       - VIRTUAL_HOST=remix-proxy,*/remix-proxy/*
       - VIRTUAL_HOST_WEIGHT=10
