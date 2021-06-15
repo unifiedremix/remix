@@ -39,7 +39,7 @@ services:
       - remix
 
   remix-origin:
-    image: unifiedstreaming/remix-origin:1.10.28
+    image: unifiedstreaming/remix-origin:latest
     environment:
       - USP_LICENSE_KEY
       - VIRTUAL_HOST=remix-origin,*/remix-origin/*
@@ -49,9 +49,9 @@ services:
       - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)remix-origin[/]?(.*)     \1\2
     networks:
       - remix
-    
+
   unified-origin:
-    image: unifiedstreaming/origin:1.10.28
+    image: unifiedstreaming/origin:latest
     environment:
       - USP_LICENSE_KEY
       - VIRTUAL_HOST=origin,unified-origin,*/unified-origin/*,*/origin/*
@@ -62,7 +62,7 @@ services:
       - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)unified-origin[/]?(.*)     \1\2
     networks:
       - remix
-   
+
   web-frontend:
     image: unifiedstreaming/web-frontend:1.7.32
     environment:
@@ -71,9 +71,9 @@ services:
       - EXTRA_SETTINGS=reqrep ^([^\ ]*\ /)web-frontend[/]?(.*)     \1\2
     networks:
       - remix
-    
+
   sample-content:
-    image: unifiedstreaming/sample-content:1.7.32
+    image: unifiedstreaming/sample-content:latest
     environment:
       - VIRTUAL_HOST=sample-content,*/sample-content/*
       - VIRTUAL_HOST_WEIGHT=10
@@ -101,5 +101,4 @@ services:
 
 networks:
   remix:
-    driver: bridge   
-
+    driver: bridge
